@@ -1,32 +1,26 @@
-import { Server as NetServer } from 'http';
-import { NextApiRequest, NextApiResponse } from 'next';
-import { Server as ServerIO } from "socket.io";
-import { NextApiResponseServerIo } from "@/types"
+import { Server } from "socket.io";
+import messageHandler from "@/utils/sockets/messageHandler";
 
-export const config = {
-    api: {
-        bodyParser: false
-    }
-}
-
-const ioHandler = (req: NextApiRequest, res: NextApiResponseServerIo) => {
-    if (res.socket.server.io) {
-        console.log('Socket is already running')
-    } else {
-        console.log('Socket is initializing')
-        const path = "/api/socket/io";
-        const httpServer: NetServer = res.socket.server as any;
-        const io = new ServerIO(httpServer, {
-            path: path,
-            // @ts-ignore
-            addTraillingSlash: false,
-            rejectUnauthorized: false,
-        })
-        res.socket.server.io = io
-
-    }
-    // console.log("WebSocket server already initialized");
+export default function SocketHandler(req, res) {
+  // It means that socket server was already initialised
+  if (res.socket.server.io) {
+    console.log("Already set up");
     res.end();
-}
+    return;
+  }
 
-export default ioHandler
+  const io = new Server(res.socket.server);
+  res.socket.server.io = io;
+
+  const onConnection = (socket) => {
+    console.log("connected server", socket)
+    messageHandler(io, socket);
+    // console.log("connected")
+  };
+
+  // Define actions inside
+  io.on("connection", onConnection);
+
+  console.log("Setting up socket");
+  res.end();
+}
