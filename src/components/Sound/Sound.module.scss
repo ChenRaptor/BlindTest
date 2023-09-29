@@ -1,0 +1,11 @@
+.sound {
+    width: 50vw;
+    height: 10vh;
+    border: $border;
+    border-radius: $border-radius;
+    margin: 0 auto 80px auto;
+}
+
+.sound > * {
+    margin: auto;
+}

@@ -1,0 +1,14 @@
+.connected {
+    display: inline-block;
+}
+
+.connected > ul {
+    border: $border;
+    border-radius: $border-radius;
+    padding: 0 10px;
+}
+
+.connected > ul > li {
+    list-style: none;
+    margin: 20px 10px;
+}
