@@ -4,17 +4,27 @@ import styles from './page.module.scss'
 import SocketQRCode from '@components/QrCode/QrCode'
 import { useSocket } from '@/providers/socket-provider'
 import { useEffect } from "react"
+import { io } from 'socket.io-client'
 
-export default function Home() {
+export default async function Home() {
 
-  const {socket, isConnected} = useSocket()
+  // const {socket, isConnected} = useSocket()
 
-  useEffect(() => {
-    console.log(socket);
-    if (socket) {
-      socket.emit("connect")
-    }
-  },[socket])
+  // await fetch('/api/socket/io')
+  // let socket = io()
+
+  // socket.on('connect', () => {
+  //   console.log('connected')
+  // })
+  
+
+  // useEffect(() => {
+  //   console.log(socket);
+  // },[socket])
+
+  // useEffect(() => {
+  //   console.log("isConnected: ", isConnected)
+  // },[isConnected])
 
   return (
     <main className={styles.main}>

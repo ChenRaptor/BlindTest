@@ -32,16 +32,21 @@ export const SocketProvider = ({
     const [isConnected, setIsConnected] = useState(false);
 
     useEffect(() => {
-        console.log('ok')
-        const socketInstance = new (ClientIO as any)(process.env.NEXT_PUBLIC_SITE_URL!, {
-            path: "api/socket/io",
+        // console.log('ok')
+        const socketInstance = new (ClientIO as any)("http://localhost:3000", {
+            path: "/api/socket/io",
             addTrailingSlash : false,
+            rejectUnauthorized: false,
         });
 
         socketInstance.on("connect", () => {
-            console.log("connect")
+            console.log("connect");
             setIsConnected(true);
         })
+
+        socketInstance.on("connect_error", (error: any) => {
+            console.error(error.message);
+        });
 
         socketInstance.on("disconnect", () => {
             console.log("disconnect")

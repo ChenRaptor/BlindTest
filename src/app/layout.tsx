@@ -1,3 +1,4 @@
+
 import { SocketProvider } from '@/providers/socket-provider'
 import './globals.css'
 import type { Metadata } from 'next'
