@@ -1,31 +1,47 @@
 "use client"
 import { useState, useEffect } from "react";
 import { useSocket } from "@/providers/socket-provider";
+import { useForm } from "react-hook-form";
 
 
 export default function Room({ params }: { params: { room_id: string } }) {
 
+    const { register, handleSubmit } = useForm();
+    const [data, setData] = useState<any>("");
     const { socket } = useSocket()
 
+
     useEffect(() => {
-        if(socket) {
-            socketInitializer(socket);
+        if (data !== "" && socket) {
+            socketInitializer(socket, data);
         }
-    }, [socket]); // Utilisation d'un tableau de dépendances vide pour exécuter une seule fois
+    }, [data, socket]);
 
-    const socketInitializer = async (socket: any) => {
-        // We just call it because we don't need anything else out of it
 
-        socket.emit("enterRoom", { room_id: params.room_id, pseudo: 'socket' });
 
-        socket.on("newPlayerJoinParty", (msg: string) => {
-        console.log(msg);
+    const socketInitializer = async (socket: any, data: any) => {
+
+        socket.emit("enterRoom", { room_id: params.room_id, pseudo: data.pseudo });
+
+        socket.on("newPlayerJoinParty", (data : any) => {
+
+            console.log(data)
+            // console.log(`${newPlayer} vient de joindre le salon. Il y a maintenant ${room.numberPlayer} personnes dans le salon.`);
+            // console.log(room);
         });
+        console.log(socket)
     };
+
+
+
 
   return (
     <main>
-      ok
+      <form onSubmit={handleSubmit((formData) => setData(formData))}>
+        <input {...register("pseudo")} placeholder="Pseudo" />
+        <p>{JSON.stringify(data)}</p>
+        <input type="submit" />
+      </form>
     </main>
   );
 }

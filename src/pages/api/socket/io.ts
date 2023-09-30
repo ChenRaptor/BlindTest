@@ -3,42 +3,75 @@ import messageHandler from "@/utils/sockets/messageHandler";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default function SocketHandler(req: NextApiRequest, res: any) {
-  // It means that socket server was already initialised
-  if (res.socket.server.io) {
-    // console.log("Already set up");
-    res.end();
-    return;
-  }
 
-  const io = new Server(res.socket.server);
-  res.socket.server.io = io;
+    if (res.socket.server.io) {
+        res.end();
+        return;
+    }
 
-  const onConnection = (socket: any) => {
+    const io = new Server(res.socket.server);
+    res.socket.server.io = io;
 
-    socket.on("enterRoom", ({room_id, pseudo}: {room_id: string, pseudo: string}) => {
+    const onConnection = (socket: any) => {
 
-        if (!socket.rooms.has(room_id)) {
-          console.log(`Socket ${socket.id} s'est connectée à la room ${room_id}`);
-          socket.join(`room-/${room_id}`);
-          io.to(`room-/${room_id}`).emit("newPlayerJoinParty", pseudo);
-        }
-        else {
-          console.log(`Socket ${socket.id} est déjà connectée à la room ${room_id}`);
-        }
+        socket.on("enterRoom", ({room_id, pseudo}: {room_id: string, pseudo: string}) => {
 
-        const room = io.sockets.adapter.rooms.get(`room-/${room_id}`);
-        console.log({
-          room: `room-/${room_id}`,
-          numberPlayer: room!.size,
-          sockets: room
-        });
+            if (!socket.rooms.has(room_id)) 
+            {
+
+                console.log(`Socket ${socket.id} s'est connectée à la room ${room_id}`);
+                socket.join(`room-/${room_id}`);
+
+                socket.data.user = { socket_id: socket.id, pseudo: pseudo };
+
+                const room = io.sockets.adapter.rooms.get(`room-/${room_id}`);
+
+                io.in(`room-/${room_id}`).fetchSockets().then((res) => {
+
+                    io.to(`room-/${room_id}`).emit("newPlayerJoinParty", {
+                        room: {
+                            id: `room-/${room_id}`,
+                            numberPlayer: room!.size,
+                            sockets: res
+                        },
+                        newPlayer: pseudo,
+                    });
+
+                })
+
+                // io.to(`room-/${room_id}`).emit("newPlayerJoinParty", {
+                //     room: {
+                //         id: `room-/${room_id}`,
+                //         numberPlayer: room!.size,
+                //         // sockets: res
+                //     },
+                //     newPlayer: pseudo,
+                // });
+
+                // io.in(`room-/${room_id}`).fetchSockets().then((res) => {
+            
+                //     io.to(`room-/${room_id}`).emit("newPlayerJoinParty", {
+                //         room: {
+                //             id: `room-/${room_id}`,
+                //             numberPlayer: room!.size,
+                //             sockets: res
+                //         },
+                //         newPlayer: pseudo,
+                //     });
+
+                // })
+
+            }
+            else 
+            {
+                console.log(`Socket ${socket.id} est déjà connectée à la room ${room_id}`);
+            }
+
     });
+};
 
+    io.on("connection", onConnection);
 
-  };
-
-  io.on("connection", onConnection);
-
-  console.log("Setting up socket");
-  res.end();
+    console.log("Setting up socket");
+    res.end();
 }

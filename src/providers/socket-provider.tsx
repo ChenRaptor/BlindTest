@@ -32,46 +32,29 @@ export const SocketProvider = ({
     children: React.ReactNode
 }) => {
     const [socket, setSocket] = useState<any>(null);
-    const [value, setValue] = useSessionStorage<any>('socket', false)
+    // const [socketIdInStorage, setSocketIdInStorage] = useSessionStorage<any>('socket', "null")
 
-    // const socketInstance = useMemo(() => {
-    //     const customClientId = `socket-/${uuidv4()}`;
-    //     const socket = io({
-    //         query: { clientId: customClientId } // Transmettez l'identifiant personnalisé au serveur
-    //     });
-    //     return socket
-    // }, []);
-
-    // socket.data.user = {fname:'John',lname:'Doe'}
+    const socketInstance = useMemo(() => io(), [])
 
     useEffect(() => {
-        socketInitializer();
-    }, [])
+        if(socketInstance) {
+            socketInitializer(socketInstance);
+        }
+    }, [socketInstance])
 
-    const socketInitializer = async () => {
+    const socketInitializer = async (socketInstance: any) => {
 
         await fetch("/api/socket/io");
-        
-        const socketInstance = io();
 
         setSocket(socketInstance);
-        setValue("socketInstance");
+
+        console.log("ok", socketInstance)
 
         return () => {
             socketInstance.disconnect();
         }
     }
 
-        // // Côté client
-        // const customClientId = 'your_custom_id'; // Générez un identifiant personnalisé ici
-
-        // const socket = io.connect('http://your-server-url', {
-        // query: { clientId: customClientId }, // Transmettez l'identifiant personnalisé au serveur
-        // });
-
-        // socket.on('connect', () => {
-        // console.log(`Connected with custom ID: ${customClientId}`);
-        // });
 
 
     return (
