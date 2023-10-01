@@ -3,11 +3,11 @@ import { useState, useEffect } from "react";
 import { useSocket } from "@/providers/socket-provider";
 import { useForm } from "react-hook-form";
 
-
 export default function Room({ params }: { params: { room_id: string } }) {
 
     const { register, handleSubmit } = useForm();
     const [data, setData] = useState<any>("");
+    const [roomData, setRoomData] = useState<any>(null);
     const { socket } = useSocket()
 
 
@@ -23,13 +23,12 @@ export default function Room({ params }: { params: { room_id: string } }) {
 
         socket.emit("enterRoom", { room_id: params.room_id, pseudo: data.pseudo });
 
-        socket.on("newPlayerJoinParty", (data : any) => {
-
-            console.log(data)
-            // console.log(`${newPlayer} vient de joindre le salon. Il y a maintenant ${room.numberPlayer} personnes dans le salon.`);
-            // console.log(room);
+        socket.on("newPlayerJoinParty", ({newPlayer, room} : any) => {
+            // console.log(room)
+            setRoomData(room)
+            console.log(`${newPlayer.pseudo} vient de joindre le salon. Il y a maintenant ${room.numberPlayer} personnes dans le salon.`);
         });
-        console.log(socket)
+
     };
 
 
@@ -37,11 +36,18 @@ export default function Room({ params }: { params: { room_id: string } }) {
 
   return (
     <main>
-      <form onSubmit={handleSubmit((formData) => setData(formData))}>
-        <input {...register("pseudo")} placeholder="Pseudo" />
-        <p>{JSON.stringify(data)}</p>
-        <input type="submit" />
-      </form>
+        {
+            roomData && roomData.sockets.map((socket: any) => <p>{socket.pseudo}</p>)
+        }
+        {
+            data === "" ? 
+            <form onSubmit={handleSubmit((formData) => setData(formData))}>
+                <input {...register("pseudo")} placeholder="Pseudo" />
+                <p>{JSON.stringify(data)}</p>
+                <input type="submit" />
+            </form>
+            : null
+        }
     </main>
   );
 }
