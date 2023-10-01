@@ -24,7 +24,7 @@ export default function Room({ params }: { params: { room_id: string } }) {
         socket.emit("enterRoom", { room_id: params.room_id, pseudo: data.pseudo });
 
         socket.on("newPlayerJoinParty", ({newPlayer, room} : any) => {
-            // console.log(room)
+            console.log(room)
             setRoomData(room)
             console.log(`${newPlayer.pseudo} vient de joindre le salon. Il y a maintenant ${room.numberPlayer} personnes dans le salon.`);
         });

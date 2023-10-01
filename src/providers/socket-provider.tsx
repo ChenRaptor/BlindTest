@@ -11,7 +11,6 @@ import {
 } from "react"
 
 import io from "socket.io-client";
-import { useSessionStorage } from 'usehooks-ts';
 
 type SocketContextType = {
     socket: any | null;
@@ -32,7 +31,6 @@ export const SocketProvider = ({
     children: React.ReactNode
 }) => {
     const [socket, setSocket] = useState<any>(null);
-    // const [socketIdInStorage, setSocketIdInStorage] = useSessionStorage<any>('socket', "null")
 
     const socketInstance = useMemo(() => io(), [])
 
