@@ -14,7 +14,13 @@ export default function SocketHandler( req: NextApiRequest, res: NextApiResponse
 
     const onConnection = (socket: any) => {
 
-        socket.on("enterRoom", ({ room_id, pseudo }: { room_id: string, pseudo: string }) => {
+        socket.on("enterRoom", ({ 
+            room_id, 
+            object 
+        }: { 
+            room_id: string, 
+            object: { type: 'player' | 'tablet', pseudo?: string } 
+        }) => {
 
             if (!socket.rooms.has(room_id)) 
             {
@@ -22,27 +28,32 @@ export default function SocketHandler( req: NextApiRequest, res: NextApiResponse
                 console.log(`Socket ${socket.id} s'est connectée à la room ${room_id}`);
                 socket.join(`room-/${room_id}`);
 
-                socket.data.user = { 
-                    socket_id: socket.id, 
-                    pseudo: pseudo 
-                };
+                if (object.type === 'player') {
+                    socket.data.user = { 
+                        socket_id: socket.id, 
+                        pseudo: object.pseudo
+                    };
+    
+                    // const room = io.sockets.adapter.rooms.get(`room-/${room_id}`);
+    
+                    io.in(`room-/${room_id}`).fetchSockets().then((res) => {
+    
+                        const socketsInRoom = res
+                        .filter((socket) => socket.data.hasOwnProperty('user'))
+                        .map((socket) => socket.data.user);
 
-                // const room = io.sockets.adapter.rooms.get(`room-/${room_id}`);
-
-                io.in(`room-/${room_id}`).fetchSockets().then((res) => {
-
-                    const socketsInRoom = res.map((socket) => socket.data.user)
-
-                    io.to(`room-/${room_id}`).emit("newPlayerJoinParty", {
-                        room: {
-                            id: `room-/${room_id}`,
-                            numberPlayer: socketsInRoom.length,
-                            sockets: socketsInRoom,
-                        },
-                        newPlayer: socket.data.user,
-                    });
-
-                })
+                        console.log(socketsInRoom)
+                        io.to(`room-/${room_id}`).emit("newPlayerJoinParty", {
+                            room: {
+                                id: `room-/${room_id}`,
+                                numberPlayer: socketsInRoom.length,
+                                sockets: socketsInRoom,
+                            },
+                            newPlayer: socket.data.user,
+                        });
+    
+                    })
+                }
 
             }
             else 

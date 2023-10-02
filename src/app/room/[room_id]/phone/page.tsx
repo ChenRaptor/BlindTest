@@ -17,11 +17,9 @@ export default function Room({ params }: { params: { room_id: string } }) {
         }
     }, [data, socket]);
 
-
-
     const socketInitializer = async (socket: any, data: any) => {
 
-        socket.emit("enterRoom", { room_id: params.room_id, pseudo: data.pseudo });
+        socket.emit("enterRoom", { room_id: params.room_id, object: { type: 'player', pseudo: data.pseudo } });
 
         socket.on("newPlayerJoinParty", ({newPlayer, room} : any) => {
             console.log(room)
@@ -36,7 +34,7 @@ export default function Room({ params }: { params: { room_id: string } }) {
   return (
     <main>
         {
-            roomData && roomData.sockets.map((socket: any) => <p>{socket.pseudo}</p>)
+            roomData && roomData.sockets.map((socket: any, index : number) => <p key={index}>{socket.pseudo}</p>)
         }
         {
             data === "" ? 
