@@ -1,10 +1,16 @@
 "use client"
+
 import { useEffect, useState } from 'react'
+import { useSocket } from '@/providers/socket-provider'
+
 import styles from './tablet.module.scss'
+
 import Sound from '@components/Sound/Sound'
 import UserList from '@components/UserList/UserList'
 import Answer from '@components/Answer/Answer'
-import { useSocket } from '@/providers/socket-provider'
+import Genre from '@components/Genre/Genre'
+
+
 
 export default function Home({ params }: { params: { room_id: string } }) {
 
@@ -33,6 +39,7 @@ export default function Home({ params }: { params: { room_id: string } }) {
   return (
     <main className={styles.main}>
       <div>
+        <Genre/>
         {
             roomData ? <UserList list={roomData.sockets.map((socket: {pseudo : string, socket_id : string}) => socket.pseudo)}/> : null
         }

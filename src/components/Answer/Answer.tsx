@@ -1,6 +1,6 @@
 import styles from './Answer.module.scss'
 
-function Answer () {
+export default function Answer () {
     return (
         <section className={styles.answer}>
             <h2>Answer</h2>
@@ -8,5 +8,3 @@ function Answer () {
         </section>
     )
 }
-
-export default Answer

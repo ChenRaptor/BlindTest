@@ -1,7 +1,5 @@
-function UserConnected ({user,index}:{user:string; index:number}) {
+export default function UserConnected ({user}:{user:string}) {
     return (
-        <li>Un joueur {user} n°{index}</li>
+        <li>{user} : </li>
     )
 }
-
-export default UserConnected
