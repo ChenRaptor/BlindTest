@@ -13,22 +13,26 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
-      <div>
-        
+      <div className={styles.container}>
+        <div className={styles.carousel}>
+          <Button className={`${styles.item} ${styles.a}`} text="Tous genres"/>
+          <Button className={`${styles.item} ${styles.b}`} text="Musique film"/>
+          <Button className={`${styles.item} ${styles.c}`} text="Réplique film"/>
+          <Button className={`${styles.item} ${styles.d}`} text="Musique série"/>
+          <Button className={`${styles.item} ${styles.f}`} text="Réplique série"/>
+          <Button className={`${styles.item} ${styles.e}`} text="Musique anime"/>
+        </div>
+        {/* <Button text="Réplique anime"/>
+        <Button text="Aléatoire"/> */}
       </div>
-      <Button text="Musique Film"/>
-      <Button text="Réplique Film"/>
-      <Button text="Musique Série"/>
-      <Button text="Réplique Série"/>
-      <Button text="Musique Anime"/>
-      <Button text="Réplique Anime"/>
 
-
-      <Link href={socketURL}>Lien vers la room</Link>
-      {/* <SocketQRCode url={socketURL}/> */}
+      {/* <Link href={socketURL}>Lien vers la room</Link>
+      <SocketQRCode url={socketURL}/> */}
 
 
 
     </main>
   )
 }
+
+// https://codepen.io/alexanderroidl/pen/PooNgqZ
