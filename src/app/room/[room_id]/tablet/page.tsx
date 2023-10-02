@@ -1,0 +1,44 @@
+"use client"
+import { useEffect, useState } from 'react'
+import styles from './tablet.module.scss'
+import Sound from '@components/Sound/Sound'
+import UserList from '@components/UserList/UserList'
+import Answer from '@components/Answer/Answer'
+import { useSocket } from '@/providers/socket-provider'
+
+export default function Home({ params }: { params: { room_id: string } }) {
+
+  const [roomData, setRoomData] = useState<any>(null);
+  const { socket } = useSocket()
+
+  useEffect(() => {
+    if (socket) {
+        socketInitializer();
+    }
+  }, [socket]);
+
+  const socketInitializer = () => {
+
+    socket.emit("enterRoom", { room_id: params.room_id, object: {type: 'tablet'} });
+
+      socket.on("newPlayerJoinParty", ({newPlayer, room} : any) => {
+          console.log(room)
+          setRoomData(room)
+          console.log(`${newPlayer.pseudo} vient de joindre le salon. Il y a maintenant ${room.numberPlayer} personnes dans le salon.`);
+      });
+
+  };
+
+  
+  return (
+    <main className={styles.main}>
+      <div>
+        {
+            roomData ? <UserList list={roomData.sockets.map((socket: {pseudo : string, socket_id : string}) => socket.pseudo)}/> : null
+        }
+      </div>
+      <Sound/>
+      <Answer/>
+    </main>
+  )
+}
