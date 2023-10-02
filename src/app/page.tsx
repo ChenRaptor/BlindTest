@@ -1,4 +1,5 @@
 "use client"
+import Button from '@components/Button/Button';
 import styles from './page.module.scss'
 
 import SocketQRCode from '@components/QrCode/QrCode'
@@ -13,11 +14,19 @@ export default function Home() {
 
   return (
     <main className={styles.main}>
-
+      <div>
+        
+      </div>
+      <Button text="Musique Film"/>
+      <Button text="Réplique Film"/>
+      <Button text="Musique Série"/>
+      <Button text="Réplique Série"/>
+      <Button text="Musique Anime"/>
+      <Button text="Réplique Anime"/>
 
 
       <Link href={socketURL}>Lien vers la room</Link>
-      <SocketQRCode url={socketURL}/>
+      {/* <SocketQRCode url={socketURL}/> */}
 
 
 

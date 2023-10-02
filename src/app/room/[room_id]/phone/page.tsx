@@ -33,7 +33,6 @@ export default function Room({ params }: { params: { room_id: string } }) {
 
 
 
-
   return (
     <main>
         {
