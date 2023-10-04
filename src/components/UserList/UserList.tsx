@@ -1,4 +1,4 @@
-import UserConnected from "../UserConnected/UserConnected"
+import User from "@components/User/User"
 import styles from './UserList.module.scss'
 
 type userListProps = {
@@ -11,7 +11,7 @@ export default function UserList ({ list } : userListProps) {
             <h2>User list</h2>
             <ul>
                 {list.map((user,index) => 
-                    <UserConnected key={index} user={user}/>
+                    <User key={index} user={user}/>
                 )}
             </ul>
         </section>

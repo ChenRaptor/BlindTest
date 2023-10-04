@@ -11,7 +11,6 @@ import Answer from '@components/Answer/Answer'
 import Genre from '@components/Genre/Genre'
 
 
-
 export default function Home({ params }: { params: { room_id: string } }) {
 
   const [roomData, setRoomData] = useState<any>(null);
@@ -28,20 +27,21 @@ export default function Home({ params }: { params: { room_id: string } }) {
     socket.emit("enterRoom", { room_id: params.room_id, object: {type: 'tablet'} });
 
       socket.on("newPlayerJoinParty", ({newPlayer, room} : any) => {
-          console.log(room)
+          // console.log(room)
           setRoomData(room)
-          console.log(`${newPlayer.pseudo} vient de joindre le salon. Il y a maintenant ${room.numberPlayer} personnes dans le salon.`);
+          // console.log(`${newPlayer.pseudo} vient de joindre le salon. Il y a maintenant ${room.numberPlayer} personnes dans le salon.`);
       });
 
   };
 
+  const listUser = roomData && roomData.sockets.map((socket: {pseudo : string, socket_id : string}) => socket.pseudo);
   
   return (
     <main className={styles.main}>
       <div>
         <Genre/>
         {
-            roomData ? <UserList list={roomData.sockets.map((socket: {pseudo : string, socket_id : string}) => socket.pseudo)}/> : null
+            roomData && listUser ? <UserList list={listUser}/> : null
         }
       </div>
       <Sound/>
