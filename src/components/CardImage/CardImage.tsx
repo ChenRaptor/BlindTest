@@ -17,7 +17,7 @@ export default function CardImage({
                 <Image 
                 loader={imageLoader}
                 src={src}
-                alt="Picture of the author"
+                alt="Poster"
                 width={150}
                 height={200}
                 />

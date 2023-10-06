@@ -4,7 +4,7 @@ import styles from './page.module.scss'
 
 import SocketQRCode from '@components/QrCode/QrCode'
 import { v4 as uuidv4 } from 'uuid';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Carrousel3D from '@components/Carrousel3D/Carrousel3D';
 import Card from '@components/Card/Card';
 import CardImage from '@components/CardImage/CardImage';
@@ -16,9 +16,11 @@ export default function Home() {
   const {cinema, setCinema} = useCinema();
   const [party, setParty] = useState(false);
 
-  const [infos, setInfos] = useState({})
+  const [option, setOption] = useState('aleatoires');
 
-  const type = cinema['musiques']['films'];
+  useEffect(() => {
+    console.log("page: ", option)
+  },[option])
 
   return (
     <main className={styles.main}>
@@ -28,7 +30,7 @@ export default function Home() {
         <div>
           <Card fit>
             {
-              type.map((src : string, index : number) => <CardImage src={src}/>)
+              (cinema[option] !== undefined ? cinema[option] : []).map((src : string, index : number) => <CardImage src={src}/>)
             }
             <div>
               {
@@ -45,14 +47,18 @@ export default function Home() {
 
       <div className={styles.carrousel3D}>
         <Carrousel3D gapCenter={250} carrouselItems={[
+
             <Card><h2>Aléatoire</h2></Card>,
-            <Card><h2>Musiques film</h2></Card>,
-            <Card><h2>Musiques animé</h2></Card>,
-            <Card><h2>Musique série</h2></Card>,
-            <Card><h2>Répliques film</h2></Card>,
+
+            <Card><h2>Réplique série</h2></Card>,
             <Card><h2>Réplique animé</h2></Card>,
-            <Card><h2>Réplique série</h2></Card>
-        ]}/>
+            <Card><h2>Répliques film</h2></Card>,
+
+            <Card><h2>Musique série</h2></Card>,
+            <Card><h2>Musiques animé</h2></Card>,
+            <Card><h2>Musiques film</h2></Card>,
+
+        ]} setter={setOption}/>
       </div>
     </main>
   )
