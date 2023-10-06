@@ -1,0 +1,51 @@
+{
+    "characters": [
+        {"id": 1, "actor": "Robert Downey Jr.", "character": "Iron Man", "reply": []},
+        {"id": 2, "actor": "Chris Evans", "character": "Captain America", "reply": []},
+        {"id": 3, "actor": "Chris Hemsworth", "character": "Thor", "reply": []},
+        {"id": 4, "actor": "Scarlett Johansson", "character": "Natasha Romanoff", "reply": []},
+        {"id": 5, "actor": "Mark Ruffalo", "character": "Hulk", "reply": []},
+        {"id": 6, "actor": "Jeremy Renner", "character": "Clint Barton", "reply": []},
+        {"id": 7, "actor": "Brie Larson", "character": "Captain Marvel", "reply": []},
+        {"id": 8, "actor": "Paul Rudd", "character": "Ant Man", "reply": []},
+        {"id": 9, "actor": "Tom Holland", "character": "Spider Man", "reply": []},
+        {"id": 10, "actor": "Elizabeth Olsen", "character": "Wanda", "reply": []},
+        {"id": 11, "actor": "Chadwick Boseman", "character": "Black Panther", "reply": []},
+        {"id": 12, "actor": "Chris Pratt", "character": "Star Lord", "reply": []},
+        {"id": 13, "actor": "Benedict Cumberbatch", "character": "Doctor Strange", "reply": []},
+        {"id": 14, "actor": "Benedict Wong", "character": "Wong", "reply": []},
+        {"id": 15, "actor": "Margot Robbie", "character": "Barbie", "reply": []},
+        {"id": 16, "actor": "Ryan Gosling", "character": "Ken", "reply": []},
+        {"id": 17, "actor": "Vin Diesel", "character": "Dominic Toretto", "reply": []},
+        {"id": 18, "actor": "Jason Momoa", "character": "Dante Reyes", "reply": []}
+    ],
+    "films": [
+        {
+            "title": "Avenger End Game",
+            "date": 2019,
+            "soundLink": [],
+            "characters": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+        },
+        {
+            "title": "Barbie",
+            "date": 2023,
+            "soundLink": [],
+            "characters": [1, 2, 3, 4, 5, 6]
+        },
+        {
+            "title": "Fast & Furious X",
+            "date": 2023,
+            "soundLink": [],
+            "characters": [1, 2, 3, 4, 5, 6]
+        }
+    ],
+    "series": [
+        {}
+    ],
+    "anime": [
+        {}
+    ],
+    "cartoon": [
+        {}
+    ]
+}
