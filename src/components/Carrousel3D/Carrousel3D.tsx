@@ -1,7 +1,7 @@
 "use client"
 import Button from '@components/Button/Button';
 import styles from './Carrousel3D.module.scss'
-import { ReactElement, cloneElement, useState } from 'react';
+import { ReactElement, cloneElement, useState, useEffect } from 'react';
 
 export default function Carrousel3D({carrouselItems, gapCenter} : { carrouselItems : ReactElement[], gapCenter: number }) {
 

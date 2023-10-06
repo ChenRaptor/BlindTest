@@ -1,4 +1,5 @@
 import { SocketProvider } from '@/providers/socket-provider'
+import { CinemaProvider } from '@/providers/cinema-provider'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 
@@ -26,7 +27,9 @@ export default function RootLayout({
     <html lang="fr">
       <body className={inter.className}>
       <SocketProvider>
-        {children}
+        <CinemaProvider>
+          {children}
+        </CinemaProvider>
       </SocketProvider>
       </body>
     </html>
