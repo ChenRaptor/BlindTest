@@ -18,7 +18,7 @@ export default function Home() {
 
   const [infos, setInfos] = useState({})
 
-  const type = 'music_aleatoires';
+  const type = cinema['musiques']['films'];
 
   return (
     <main className={styles.main}>
@@ -28,7 +28,7 @@ export default function Home() {
         <div>
           <Card fit>
             {
-              infos[type].map((src, index) => <CardImage src={src}/>)
+              type.map((src : string, index : number) => <CardImage src={src}/>)
             }
             <div>
               {
