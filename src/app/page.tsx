@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import Carrousel3D from '@components/Carrousel3D/Carrousel3D';
 import Card from '@components/Card/Card';
 import CardImage from '@components/CardImage/CardImage';
+import Button from '@components/Button/Button';
 import { useCinema } from '@/providers/cinema-provider';
 
 export default function Home() {
@@ -17,9 +18,7 @@ export default function Home() {
 
   const [option, setOption] = useState('aleatoires');
 
-  useEffect(() => {
-    console.log("page: ", option)
-  },[option])
+  useEffect(() => {},[option])
 
   return (
     <main className={styles.main}>

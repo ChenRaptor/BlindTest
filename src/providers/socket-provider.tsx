@@ -1,7 +1,5 @@
 "use client"
 
-import { v4 as uuidv4 } from 'uuid';
-
 import {
     createContext,
     useContext,
@@ -45,8 +43,6 @@ export const SocketProvider = ({
         await fetch("/api/socket/io");
 
         setSocket(socketInstance);
-
-        // console.log("ok", socketInstance)
 
         return () => {
             socketInstance.disconnect();

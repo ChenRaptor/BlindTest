@@ -25,7 +25,13 @@ export const CinemaProvider = ({
 }) => {
     const [cinema, setCinema] = useState<any>({
         aleatoires: [
-            '/films/oppenheimer.jpg'
+            '/films/oppenheimer.jpg',
+            '/series/halo.jpg',
+            '/series/westworld.jpg',
+            '/series/vikings.jpg',
+            '/series/the_witcher.jpg',
+            '/series/peaky_blinders.jpg',
+            '/series/prison_break.jpg'
         ],
         repliques_films: [
             '/films/avenger.jpg',

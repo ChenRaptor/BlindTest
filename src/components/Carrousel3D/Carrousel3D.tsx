@@ -11,17 +11,12 @@ export default function Carrousel3D({carrouselItems, gapCenter, setter} : { carr
   });
 
 
-
-  // const [rotation, setRotation] = useState(0);
-
   const arrayOption = ['aleatoires','musiques_films','musiques_animes','musiques_series','repliques_films','repliques_animes','repliques_series'];
 
 
   const gapRotation = 360 / carrouselItems.length
 
-  useEffect(() => {
-    console.log(index, arrayOption[index.selected])
-  },[index])
+  useEffect(() => {},[index])
 
   const rotate = (direction : string) => {
     if (direction === 'p') {
