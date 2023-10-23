@@ -18,8 +18,8 @@ export default function CardImage({
                 loader={imageLoader}
                 src={src}
                 alt="Poster"
-                width={150}
-                height={200}
+                width={120}
+                height={160}
                 />
             </div>
         </div>
