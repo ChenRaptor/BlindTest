@@ -1,11 +1,15 @@
+import Image from 'next/image'
 import styles from './Sound.module.scss'
 
-function Sound () {
+export default function Sound () {
     return (
         <div className={styles.sound}>
-            <h2>Sound</h2>
+            <Image
+                src="/cassette.svg"
+                width={500}
+                height={300}
+                alt="Cassette audio"
+            />
         </div>
     )
 }
-
-export default Sound

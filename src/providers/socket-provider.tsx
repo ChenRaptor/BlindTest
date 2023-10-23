@@ -46,7 +46,7 @@ export const SocketProvider = ({
 
         setSocket(socketInstance);
 
-        console.log("ok", socketInstance)
+        // console.log("ok", socketInstance)
 
         return () => {
             socketInstance.disconnect();
