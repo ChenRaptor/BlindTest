@@ -7,7 +7,7 @@
 .carrousel3D {
   position: absolute;
   width: 100%;
-  bottom: 0px;
+  bottom: 60px;
 }
 
 .top {
@@ -24,9 +24,17 @@
     align-items: center;
     justify-content: center;
 
-    > div:nth-of-type(1) {
+    >.qrCode {
       position: absolute;
-      box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+      width: 300px;
+      height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: $border-radius*5;
+      border: 5px solid #ffffff9c;
+      box-shadow: 0 8px 32px 0 rgba(255, 214, 255, 0.37);
+      background: #1c1b22;
       
       > div:nth-of-type(1) {
         position: absolute;

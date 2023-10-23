@@ -26,16 +26,16 @@ export default function Home() {
       <div className={styles.top}>
 
         <div>
-          <Card fit>
+          <div className={styles.qrCode}>
             {
               (cinema[option] !== undefined ? cinema[option] : []).map((src : string, index : number) => <CardImage src={src}/>)
             }
             <div>
               {
-                party ?  <SocketQRCode url={socketURL}/> : <p>Lancer la partie ...</p>
+                party ?  <SocketQRCode url={socketURL}/> : ''
               }
             </div>
-          </Card>
+          </div>
         </div>
         <div>
           <Button type="primary" text="Lancer la partie" onClick={() => setParty(true)}/>
