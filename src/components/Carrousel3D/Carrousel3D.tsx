@@ -1,7 +1,7 @@
 "use client"
 import Button from '@components/Button/Button';
 import styles from './Carrousel3D.module.scss'
-import { ReactElement, useEffect, useState } from 'react';
+import { Fragment, ReactElement, useState } from 'react';
 
 export default function Carrousel3D({carrouselItems, gapCenter, setter} : { carrouselItems : ReactElement[], gapCenter : number, setter : any }) {
 
@@ -10,13 +10,9 @@ export default function Carrousel3D({carrouselItems, gapCenter, setter} : { carr
     deg: 0
   });
 
-
   const arrayOption = ['aleatoires','musiques_films','musiques_animes','musiques_series','repliques_films','repliques_animes','repliques_series'];
 
-
   const gapRotation = 360 / carrouselItems.length
-
-  useEffect(() => {},[index])
 
   const rotate = (direction : string) => {
     if (direction === 'p') {
@@ -53,7 +49,7 @@ export default function Carrousel3D({carrouselItems, gapCenter, setter} : { carr
             {
                 !!carrouselItems && carrouselItems.map((carrouselItem, carrouselItemIndex) => {
                     return (
-                        <>
+                        <Fragment key={carrouselItemIndex}>
                             <div key={`op2-${carrouselItemIndex}`} className={`${styles.item}`} style={{
                                 "--rotation2": `${gapRotation*carrouselItemIndex}deg`,
                                 "--gapCenter": `${gapCenter}px`,
@@ -65,7 +61,7 @@ export default function Carrousel3D({carrouselItems, gapCenter, setter} : { carr
                                 "--rotation2": `${gapRotation*carrouselItemIndex}deg`,
                                 "--gapCenter": `${gapCenter}px`,
                                 }}></div>
-                        </>
+                        </Fragment>
                     )
                 })
             }

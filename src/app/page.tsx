@@ -10,6 +10,7 @@ import CardImage from '@components/CardImage/CardImage';
 import Button from '@components/Button/Button';
 import { useCinema } from '@/providers/cinema-provider';
 
+
 export default function Home() {
 
   const socketURL = `${process.env.NEXT_PUBLIC_SITE_URL}/room/${uuidv4()}/phone`;
@@ -28,7 +29,7 @@ export default function Home() {
         <div>
           <div className={styles.qrCode}>
             {
-              (cinema[option] !== undefined ? cinema[option] : []).map((src : string, index : number) => <CardImage src={src}/>)
+              (cinema[option] !== undefined ? cinema[option] : []).map((src : string, index : number) => <CardImage src={src} key={index}/>)
             }
             <div>
               {

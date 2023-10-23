@@ -34,8 +34,6 @@ export default function SocketHandler( req: NextApiRequest, res: NextApiResponse
                         pseudo: object.pseudo
                     };
     
-                    // const room = io.sockets.adapter.rooms.get(`room-/${room_id}`);
-    
                     io.in(`room-/${room_id}`).fetchSockets().then((res) => {
     
                         const socketsInRoom = res

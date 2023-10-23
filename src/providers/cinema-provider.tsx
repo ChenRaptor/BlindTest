@@ -1,20 +1,43 @@
 "use client"
 
-import {
-    createContext,
-    useContext,
-    useState,
-} from "react"
+import json from '/public/database/infos.json'
+
+import { createContext, useContext, useState} from "react"
 
 type CinemaContextType = {
     cinema: any,
     setCinema: any
 }
 
+
 const CinemaContext = createContext<CinemaContextType>({cinema: null, setCinema: null})
 
 export const useCinema = () => {
     return useContext(CinemaContext);
+}
+
+
+json.aleatoire = [...json.films, ...json.series, ...json.animes];
+const test = json.aleatoire.map((el, index) => el.poster);
+
+console.log(test);
+
+const affiches:number[] = [];
+
+while (affiches.length < 7) {
+    const number = Math.floor(Math.random() * test.length);
+    let exist = false;
+    if (affiches.includes(number)) {
+        exist = true;
+    } else {
+        affiches.push(number);
+    }
+}
+
+console.log(affiches);
+
+for (let index = 0; index < affiches.length; index++) {
+    console.log(test[affiches[index]])
 }
 
 
@@ -86,6 +109,9 @@ export const CinemaProvider = ({
             '/animes/one_piece.jpg',
             '/animes/wakfu.jpg',
             '/animes/trigun_stamped.jpg'
+        ],
+        test: [
+
         ]
 });
 
