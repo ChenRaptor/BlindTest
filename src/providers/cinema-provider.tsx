@@ -42,7 +42,7 @@ export const CinemaProvider = ({
 
         for (const key in originalObject) {
             const affiches:number[] = [];
-            while (affiches.length < 4) {
+            while (affiches.length < 7) {
                 const number = Math.floor(Math.random() * originalObject[key].length);
                 if (!affiches.includes(number)) {
                     affiches.push(number);
