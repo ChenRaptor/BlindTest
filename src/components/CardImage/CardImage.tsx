@@ -1,11 +1,7 @@
 import Image from 'next/image'
 import styles from './CardImage.module.scss'
 
-export default function CardImage({
-    src,
-} : {
-    src: string
-}) {
+export default function CardImage({src}:{src: string}) {
 
     const imageLoader = ({ src }:any) => {
         return `${src}?w=100&q=1`

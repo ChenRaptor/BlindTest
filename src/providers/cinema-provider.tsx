@@ -1,14 +1,8 @@
 "use client"
 
-import json from '/public/database/infos.json'
+import { createContext, useContext, useState, useEffect} from "react";
 
-import { createContext, useContext, useState} from "react"
-
-type CinemaContextType = {
-    cinema: any,
-    setCinema: any
-}
-
+type CinemaContextType = {cinema: any, setCinema: any}
 
 const CinemaContext = createContext<CinemaContextType>({cinema: null, setCinema: null})
 
@@ -16,104 +10,74 @@ export const useCinema = () => {
     return useContext(CinemaContext);
 }
 
-
-json.aleatoire = [...json.films, ...json.series, ...json.animes];
-const test = json.aleatoire.map((el, index) => el.poster);
-
-console.log(test);
-
-const affiches:number[] = [];
-
-while (affiches.length < 7) {
-    const number = Math.floor(Math.random() * test.length);
-    let exist = false;
-    if (affiches.includes(number)) {
-        exist = true;
-    } else {
-        affiches.push(number);
-    }
-}
-
-console.log(affiches);
-
-for (let index = 0; index < affiches.length; index++) {
-    console.log(test[affiches[index]])
-}
-
-
 export const CinemaProvider = ({
     children
 }: {
     children: React.ReactNode
 }) => {
-    const [cinema, setCinema] = useState<any>({
-        aleatoires: [
-            '/films/oppenheimer.jpg',
-            '/series/halo.jpg',
-            '/series/westworld.jpg',
-            '/series/vikings.jpg',
-            '/series/the_witcher.jpg',
-            '/series/peaky_blinders.jpg',
-            '/series/prison_break.jpg'
-        ],
-        repliques_films: [
-            '/films/avenger.jpg',
-            '/films/barbie.jpg',
-            '/films/oppenheimer.jpg',
-            '/films/fast_and_furious.jpg',
-            '/films/pirates_of_caribeans.jpg',
-            '/films/spiderman.jpg',
-            '/films/wolf_of_wall_street.jpg'
-        ],
-        repliques_series: [
-            '/series/got.jpg',
-            '/series/halo.jpg',
-            '/series/westworld.jpg',
-            '/series/vikings.jpg',
-            '/series/the_witcher.jpg',
-            '/series/peaky_blinders.jpg',
-            '/series/prison_break.jpg'
-        ],
-        repliques_animes: [
-            '/animes/bleach.jpg',
-            '/animes/demon_slayer.jpg',
-            '/animes/naruto.jpg',
-            '/animes/dragon_ball.jpg',
-            '/animes/one_piece.jpg',
-            '/animes/wakfu.jpg',
-            '/animes/trigun_stamped.jpg'
-        ],
-        musiques_films: [
-            '/films/avenger.jpg',
-            '/films/barbie.jpg',
-            '/films/oppenheimer.jpg',
-            '/films/fast_and_furious.jpg',
-            '/films/pirates_of_caribeans.jpg',
-            '/films/spiderman.jpg',
-            '/films/wolf_of_wall_street.jpg'
-        ],
-        musiques_series: [
-            '/series/got.jpg',
-            '/series/halo.jpg',
-            '/series/westworld.jpg',
-            '/series/vikings.jpg',
-            '/series/the_witcher.jpg',
-            '/series/peaky_blinders.jpg',
-            '/series/prison_break.jpg'
-        ],
-        musiques_animes: [
-            '/animes/bleach.jpg',
-            '/animes/demon_slayer.jpg',
-            '/animes/naruto.jpg',
-            '/animes/dragon_ball.jpg',
-            '/animes/one_piece.jpg',
-            '/animes/wakfu.jpg',
-            '/animes/trigun_stamped.jpg'
-        ],
-        test: [
+    
+    const [cinema, setCinema] = useState<any>();
 
-        ]
-});
+    // Fonction appelé lors de la récupération du fichier Json
+    // Crée un nouveau tableau 'aléatoire'
+    const createRandom = (jsonDatas:{}) => {
+        const dataList = {...jsonDatas} as {[key: string] : any};
+        dataList.aleatoire = Object.values(dataList).flatMap((value) => value)
+
+        Object.keys(dataList).forEach((array) => 
+            dataList[array] = dataList[array].map((object: any) => object.poster)
+        );
+
+        // dataList.aleatoire = Object.values(dataList).flatMap((value) => value)
+        return dataList;
+    }
+
+
+
+    // Fonction qui randomize les poster affichés lorsque le carroussel tourne
+    const randomize = (originalObject: {[key: string] : string[]}) => {  
+
+        // Crée un nouvel objet qui contiendras tous les tableaux de posters aléatoires
+        const newObject:any = {};
+
+        for (const key in originalObject) {
+            const affiches:number[] = [];
+            while (affiches.length < 4) {
+                const number = Math.floor(Math.random() * originalObject[key].length);
+                if (!affiches.includes(number)) {
+                    affiches.push(number);
+                }
+            }
+
+            // Remplie l'objet avec les posters aléatoires
+            newObject[key] = affiches.map((index) => originalObject[key][index]);
+        }
+
+        setCinema(newObject)
+    }
+
+
+
+    // Récupère les données du Json au premier chargement du provider
+    useEffect(() => {
+        async function fetchJson() {
+            try {
+                const response = await fetch('/database/affiches.json');
+                const datas = await response.json();
+                // Appel une fonction qui ajoute un tableau aléatoire
+                const withRandomCategory = createRandom(datas);
+                // Appel la fonction qui randomize les posters à afficher
+                randomize(withRandomCategory);
+            } catch (error:any) {
+                console.error(`Data loading error : ${error.message}`);
+            }
+        }
+
+        // Appel la fonction au premier chargement du provider
+        fetchJson();
+    },[])
+
+
 
     return (
         <CinemaContext.Provider value={{ cinema, setCinema }}>

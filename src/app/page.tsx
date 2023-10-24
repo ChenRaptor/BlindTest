@@ -5,7 +5,6 @@ import SocketQRCode from '@components/QrCode/QrCode'
 import { v4 as uuidv4 } from 'uuid';
 import { useEffect, useState } from 'react';
 import Carrousel3D from '@components/Carrousel3D/Carrousel3D';
-import Card from '@components/Card/Card';
 import CardImage from '@components/CardImage/CardImage';
 import Button from '@components/Button/Button';
 import { useCinema } from '@/providers/cinema-provider';
@@ -16,10 +15,12 @@ export default function Home() {
   const socketURL = `${process.env.NEXT_PUBLIC_SITE_URL}/room/${uuidv4()}/phone`;
   const {cinema, setCinema} = useCinema();
   const [party, setParty] = useState(false);
+  const [option, setOption] = useState<string>();
 
-  const [option, setOption] = useState('aleatoires');
 
-  useEffect(() => {},[option])
+  useEffect(() => {
+    cinema && Object.keys(cinema) && setOption(Object.keys(cinema)[0])
+  }, [cinema])
 
   return (
     <main className={styles.main}>
@@ -28,14 +29,18 @@ export default function Home() {
 
         <div>
           <div className={styles.qrCode}>
-            {
-              (cinema[option] !== undefined ? cinema[option] : []).map((src : string, index : number) => <CardImage src={src} key={index}/>)
+            {cinema && option && (cinema[option] ?? []).map((src : string, index : number) => 
+                <CardImage
+                  src={src}
+                  key={index}
+                />
+              ) 
             }
-            <div>
+            <span>
               {
                 party ?  <SocketQRCode url={socketURL}/> : ''
               }
-            </div>
+            </span>
           </div>
         </div>
         <div>
@@ -45,19 +50,13 @@ export default function Home() {
       </div>
 
       <div className={styles.carrousel3D}>
-        <Carrousel3D gapCenter={250} carrouselItems={[
-
-            <Card><h2>Aléatoire</h2></Card>,
-
-            <Card><h2>Réplique série</h2></Card>,
-            <Card><h2>Réplique animé</h2></Card>,
-            <Card><h2>Répliques film</h2></Card>,
-
-            <Card><h2>Musique série</h2></Card>,
-            <Card><h2>Musiques animé</h2></Card>,
-            <Card><h2>Musiques film</h2></Card>,
-
-        ]} setter={setOption}/>
+        {cinema && Object.keys(cinema) &&
+          <Carrousel3D 
+            gapCenter={250} 
+            carrouselItems={ Object.keys(cinema) } 
+            setter={setOption}
+          />
+        }
       </div>
     </main>
   )
